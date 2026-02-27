@@ -1,0 +1,262 @@
+.personal-page {
+    padding: 16px;
+    background-color: #f5f5f5;
+    min-height: calc(100vh - 64px);
+
+    .user-profile-card {
+        margin-bottom: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        .avatar-section {
+            text-align: center;
+
+            .user-avatar {
+                margin-bottom: 12px;
+                border: 3px solid #1890ff;
+            }
+
+            .user-level {
+                margin-top: 8px;
+            }
+        }
+
+        .user-info {
+            .user-name {
+                font-size: 24px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #262626;
+            }
+
+            .user-bio {
+                font-size: 14px;
+                color: #8c8c8c;
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+
+            .user-tags {
+                margin-bottom: 12px;
+
+                .ant-tag {
+                    margin-bottom: 4px;
+                }
+            }
+
+            .user-meta {
+                font-size: 12px;
+                color: #bfbfbf;
+            }
+        }
+    }
+
+    .stats-row {
+        margin-bottom: 16px;
+
+        .stat-card {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .ant-statistic-title {
+                font-size: 14px;
+                color: #8c8c8c;
+                margin-bottom: 8px;
+            }
+
+            .ant-statistic-content {
+                .ant-statistic-content-value {
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+
+                .ant-statistic-content-prefix {
+                    font-size: 18px;
+                    margin-right: 4px;
+                }
+
+                .ant-statistic-content-suffix {
+                    font-size: 14px;
+                    color: #8c8c8c;
+                    margin-left: 4px;
+                }
+            }
+        }
+    }
+
+    .tabs-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        .ant-tabs-nav {
+            margin-bottom: 0;
+
+            .ant-tabs-tab {
+                padding: 12px 16px;
+                font-size: 14px;
+
+                .anticon {
+                    margin-right: 8px;
+                }
+            }
+        }
+
+        .ant-tabs-content-holder {
+            padding: 0;
+        }
+
+        .achievements-content,
+        .settings-content {
+            padding: 40px 20px;
+            text-align: center;
+
+            .empty-state {
+                .empty-icon {
+                    font-size: 48px;
+                    color: #d9d9d9;
+                    margin-bottom: 16px;
+                }
+
+                h3 {
+                    font-size: 18px;
+                    color: #262626;
+                    margin-bottom: 8px;
+                }
+
+                p {
+                    font-size: 14px;
+                    color: #8c8c8c;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+
+    // 响应式设计
+    @media (max-width: 768px) {
+        padding: 8px;
+
+        .user-profile-card {
+            .user-info {
+                .user-name {
+                    font-size: 20px;
+                }
+
+                .user-bio {
+                    font-size: 13px;
+                }
+            }
+        }
+
+        .stats-row {
+            .stat-card {
+                .ant-statistic-content {
+                    .ant-statistic-content-value {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+
+        .tabs-card {
+            .ant-tabs-nav {
+                .ant-tabs-tab {
+                    padding: 8px 12px;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        .user-profile-card {
+            .avatar-section {
+                .user-avatar {
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+
+        .stats-row {
+            .ant-col {
+                margin-bottom: 8px;
+            }
+        }
+    }
+
+    // 暗色主题支持
+    @media (prefers-color-scheme: dark) {
+        background-color: #141414;
+
+        .user-profile-card,
+        .stat-card,
+        .tabs-card {
+            background-color: #1f1f1f;
+            border-color: #303030;
+
+            .user-info {
+                .user-name {
+                    color: #f0f0f0;
+                }
+
+                .user-bio {
+                    color: #bfbfbf;
+                }
+            }
+        }
+
+        .stat-card {
+            .ant-statistic-title {
+                color: #bfbfbf;
+            }
+
+            .ant-statistic-content {
+                .ant-statistic-content-value {
+                    color: #f0f0f0;
+                }
+            }
+        }
+
+        .tabs-card {
+
+            .achievements-content,
+            .settings-content {
+                .empty-state {
+                    h3 {
+                        color: #f0f0f0;
+                    }
+
+                    p {
+                        color: #bfbfbf;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 覆盖学习进度仪表盘在个人中心中的样式
+.personal-page .learning-dashboard {
+    padding: 0;
+    background-color: transparent;
+    min-height: auto;
+
+    .ant-card {
+        box-shadow: none;
+        border: 1px solid #e8e8e8;
+    }
+
+    .quick-actions {
+        position: static;
+        margin-top: 16px;
+        text-align: center;
+    }
+}

@@ -1,0 +1,316 @@
+.resume-diagnosis {
+    padding: 16px 0;
+
+    .upload-card {
+        .ant-upload-drag {
+            border: 2px dashed #d9d9d9;
+            border-radius: 8px;
+            padding: 40px 20px;
+            background: #fafafa;
+            transition: all 0.3s;
+
+            &:hover {
+                border-color: #1890ff;
+                background: #f0f8ff;
+            }
+
+            .ant-upload-drag-icon {
+                font-size: 48px;
+                color: #1890ff;
+                margin-bottom: 16px;
+            }
+
+            .ant-upload-text {
+                font-size: 16px;
+                color: #262626;
+                margin-bottom: 8px;
+            }
+
+            .ant-upload-hint {
+                font-size: 14px;
+                color: #8c8c8c;
+            }
+        }
+    }
+
+    .text-input-section {
+        h4 {
+            margin-bottom: 12px;
+            color: #262626;
+            font-weight: 500;
+        }
+
+        .resume-textarea {
+            width: 100%;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: all 0.3s;
+
+            &:focus {
+                outline: none;
+                border-color: #1890ff;
+                box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+            }
+
+            &::placeholder {
+                color: #bfbfbf;
+            }
+        }
+    }
+
+    .uploading-indicator {
+        text-align: center;
+        padding: 20px;
+
+        p {
+            margin-top: 12px;
+            color: #8c8c8c;
+        }
+    }
+
+    .analysis-results {
+        .score-card {
+            .ant-statistic-content {
+                font-size: 32px;
+                font-weight: bold;
+            }
+
+            .ant-progress-circle {
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .radar-card {
+            .echarts-for-react {
+                min-height: 300px;
+            }
+        }
+
+        .strengths-card,
+        .weaknesses-card {
+            .ant-list-item {
+                padding: 8px 0;
+                border-bottom: none;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+
+        .strengths-card {
+            .ant-list-item {
+                color: #52c41a;
+            }
+        }
+
+        .weaknesses-card {
+            .ant-list-item {
+                color: #faad14;
+            }
+        }
+
+        .suggestions-card {
+            .ant-list-item {
+                padding: 16px 0;
+                border-bottom: 1px solid #f0f0f0;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .ant-list-item-meta {
+                    align-items: flex-start;
+
+                    .ant-list-item-meta-avatar {
+                        margin-top: 4px;
+                    }
+
+                    .ant-list-item-meta-title {
+                        margin-bottom: 4px;
+                        font-weight: 500;
+                    }
+
+                    .ant-list-item-meta-description {
+                        color: #595959;
+                    }
+                }
+            }
+        }
+
+        .keywords-card {
+            h4 {
+                margin-bottom: 12px;
+                color: #262626;
+                font-weight: 500;
+            }
+
+            .ant-tag {
+                margin-right: 8px;
+                margin-bottom: 8px;
+                font-size: 12px;
+                padding: 2px 8px;
+                border-radius: 12px;
+            }
+        }
+    }
+
+    .empty-results {
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+
+            .empty-icon {
+                font-size: 64px;
+                color: #d9d9d9;
+                margin-bottom: 16px;
+            }
+
+            h3 {
+                color: #262626;
+                margin-bottom: 8px;
+                font-weight: 500;
+            }
+
+            p {
+                color: #8c8c8c;
+                margin-bottom: 24px;
+            }
+        }
+    }
+
+    // 响应式设计
+    @media (max-width: 768px) {
+        .analysis-results {
+            .score-card {
+                .ant-col {
+                    margin-bottom: 16px;
+                }
+            }
+
+            .keywords-card {
+                .ant-col {
+                    margin-bottom: 16px;
+                }
+            }
+        }
+    }
+
+    // 动画效果
+    .fade-enter {
+        opacity: 0;
+    }
+
+    .fade-enter-active {
+        opacity: 1;
+        transition: opacity 300ms ease-in;
+    }
+
+    .fade-exit {
+        opacity: 1;
+    }
+
+    .fade-exit-active {
+        opacity: 0;
+        transition: opacity 300ms ease-out;
+    }
+}
+
+// 全局覆盖样式
+.ant-upload.ant-upload-drag {
+    &.ant-upload-drag-hover {
+        border-color: #1890ff;
+        background: #f0f8ff;
+    }
+
+    &.ant-upload-drag-uploading {
+        border-color: #1890ff;
+        background: #f0f8ff;
+    }
+}
+
+// 卡片阴影效果
+.ant-card {
+    box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16),
+        0 3px 6px 0 rgba(0, 0, 0, 0.12),
+        0 5px 12px 4px rgba(0, 0, 0, 0.09);
+    border-radius: 8px;
+
+    .ant-card-head {
+        border-bottom: 1px solid #f0f0f0;
+
+        .ant-card-head-title {
+            font-weight: 600;
+            color: #262626;
+        }
+    }
+}
+
+// 标签样式优化
+.ant-tag {
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 20px;
+
+    &.ant-tag-green {
+        background: #f6ffed;
+        border-color: #b7eb8f;
+        color: #52c41a;
+    }
+
+    &.ant-tag-red {
+        background: #fff2f0;
+        border-color: #ffccc7;
+        color: #ff4d4f;
+    }
+
+    &.ant-tag-blue {
+        background: #f0f8ff;
+        border-color: #91d5ff;
+        color: #1890ff;
+    }
+
+    &.ant-tag-orange {
+        background: #fff7e6;
+        border-color: #ffd591;
+        color: #fa8c16;
+    }
+}
+
+// 列表样式优化
+.ant-list {
+    .ant-list-item {
+        padding: 12px 0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+// 统计卡片样式
+.ant-statistic {
+    .ant-statistic-title {
+        color: #8c8c8c;
+        font-size: 14px;
+    }
+
+    .ant-statistic-content {
+        font-weight: 600;
+    }
+}
+
+// 进度条样式
+.ant-progress {
+    &.ant-progress-circle {
+        .ant-progress-text {
+            font-weight: 600;
+            color: #262626;
+        }
+    }
+}

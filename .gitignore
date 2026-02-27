@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# large files
+server/useData/uploads/*
+!server/useData/uploads/.gitkeep
+server/useData/image-uploads/*
+!server/useData/image-uploads/.gitkeep
+server/useData/video_storage/*
+!server/useData/video_storage/.gitkeep
+server/useData/tmp_uploads/*
