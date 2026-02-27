@@ -18,13 +18,15 @@ const request = axios.create({
     // adapter: cache.adapter // 使用缓存适配器
 })
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const req = axios.create({
-    timeout: 500000
+    timeout: 500000,
+    baseURL: API_BASE_URL
 })
 
-// 创建本地开发API实例，用于学习分析系统
 const localRequest = axios.create({
-    baseURL: 'http://localhost:3001',
+    baseURL: API_BASE_URL,
     timeout: 5000,
 })
 

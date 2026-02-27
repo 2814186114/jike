@@ -1,12 +1,24 @@
 const mysql = require('mysql2')
 
-const connection = mysql.createConnection({
+const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '123456',
     database: process.env.DB_NAME || 'jike',
     port: process.env.DB_PORT || 3306,
-})
+}
+
+if (process.env.DATABASE_URL) {
+    const url = new URL(process.env.DATABASE_URL)
+    dbConfig.host = url.hostname
+    dbConfig.user = url.username
+    dbConfig.password = url.password
+    dbConfig.database = url.pathname.slice(1)
+    dbConfig.port = url.port || 3306
+    dbConfig.ssl = { rejectUnauthorized: true }
+}
+
+const connection = mysql.createConnection(dbConfig)
 
 connection.connect(err => {
     if (err) {

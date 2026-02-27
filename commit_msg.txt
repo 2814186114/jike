@@ -1,1 +1,1 @@
-feat: add deployment configuration and environment variable support
+feat: add deployment config and social features
