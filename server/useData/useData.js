@@ -1382,7 +1382,196 @@ app.delete('/api/resume/history/:id', (req, res) => {
     res.json({ success: true, message: '删除成功' });
 });
 
-const port = process.env.PORT || 3001; // 统一使用3006端口
+const port = process.env.PORT || 3001;
+
+// ============ 社交功能 API ============
+
+// 搜索文章
+app.get('/api/search', (req, res) => {
+    const { keyword, page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+
+    if (!keyword) {
+        return res.json({ articles: [], total: 0 });
+    }
+
+    const searchPattern = `%${keyword}%`;
+    const countSql = `SELECT COUNT(*) as total FROM my_articles WHERE title LIKE ? OR content LIKE ?`;
+    const sql = `SELECT id, title, tech_stack, content, updatedAt FROM my_articles WHERE title LIKE ? OR content LIKE ? ORDER BY updatedAt DESC LIMIT ? OFFSET ?`;
+
+    connection.query(countSql, [searchPattern, searchPattern], (err, countResult) => {
+        if (err) {
+            return res.status(500).json({ error: '搜索失败' });
+        }
+
+        connection.query(sql, [searchPattern, searchPattern, parseInt(limit), parseInt(offset)], (err2, articles) => {
+            if (err2) {
+                return res.status(500).json({ error: '搜索失败' });
+            }
+            res.json({
+                articles: articles || [],
+                total: countResult[0].total,
+                page: parseInt(page),
+                limit: parseInt(limit)
+            });
+        });
+    });
+});
+
+// 获取文章评论
+app.get('/api/comments/:articleId', (req, res) => {
+    const { articleId } = req.params;
+    const sql = `SELECT c.*, u.username FROM comments c LEFT JOIN vip u ON c.user_id = u.id WHERE c.article_id = ? ORDER BY c.created_at DESC`;
+
+    connection.query(sql, [articleId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: '获取评论失败' });
+        }
+        res.json(results);
+    });
+});
+
+// 添加评论
+app.post('/api/comments', (req, res) => {
+    const { articleId, userId, username, content, parentId = 0 } = req.body;
+
+    if (!articleId || !userId || !content) {
+        return res.status(400).json({ error: '参数不完整' });
+    }
+
+    const sql = `INSERT INTO comments (article_id, user_id, username, content, parent_id) VALUES (?, ?, ?, ?, ?)`;
+    connection.query(sql, [articleId, userId, username, content, parentId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: '评论失败' });
+        }
+        res.json({ success: true, commentId: result.insertId });
+    });
+});
+
+// 点赞文章
+app.post('/api/like', (req, res) => {
+    const { articleId, userId } = req.body;
+
+    if (!articleId || !userId) {
+        return res.status(400).json({ error: '参数不完整' });
+    }
+
+    const checkSql = `SELECT id FROM likes WHERE article_id = ? AND user_id = ?`;
+    connection.query(checkSql, [articleId, userId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: '操作失败' });
+        }
+
+        if (results.length > 0) {
+            // 取消点赞
+            const deleteSql = `DELETE FROM likes WHERE article_id = ? AND user_id = ?`;
+            connection.query(deleteSql, [articleId, userId], (err2) => {
+                if (err2) return res.status(500).json({ error: '操作失败' });
+                res.json({ liked: false });
+            });
+        } else {
+            // 添加点赞
+            const insertSql = `INSERT INTO likes (article_id, user_id) VALUES (?, ?)`;
+            connection.query(insertSql, [articleId, userId], (err2) => {
+                if (err2) return res.status(500).json({ error: '操作失败' });
+                res.json({ liked: true });
+            });
+        }
+    });
+});
+
+// 获取点赞状态
+app.get('/api/like/status/:articleId', (req, res) => {
+    const { articleId } = req.params;
+    const { userId } = req.query;
+
+    const countSql = `SELECT COUNT(*) as likeCount FROM likes WHERE article_id = ?`;
+    connection.query(countSql, [articleId], (err, countResult) => {
+        if (err) return res.status(500).json({ error: '获取失败' });
+
+        let isLiked = false;
+        if (userId) {
+            const statusSql = `SELECT id FROM likes WHERE article_id = ? AND user_id = ?`;
+            connection.query(statusSql, [articleId, userId], (err2, statusResult) => {
+                isLiked = statusResult.length > 0;
+                res.json({ likeCount: countResult[0].likeCount, isLiked });
+            });
+        } else {
+            res.json({ likeCount: countResult[0].likeCount, isLiked: false });
+        }
+    });
+});
+
+// 收藏文章
+app.post('/api/favorite', (req, res) => {
+    const { articleId, userId } = req.body;
+
+    if (!articleId || !userId) {
+        return res.status(400).json({ error: '参数不完整' });
+    }
+
+    const checkSql = `SELECT id FROM favorites WHERE article_id = ? AND user_id = ?`;
+    connection.query(checkSql, [articleId, userId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: '操作失败' });
+        }
+
+        if (results.length > 0) {
+            // 取消收藏
+            const deleteSql = `DELETE FROM favorites WHERE article_id = ? AND user_id = ?`;
+            connection.query(deleteSql, [articleId, userId], (err2) => {
+                if (err2) return res.status(500).json({ error: '操作失败' });
+                res.json({ favorited: false });
+            });
+        } else {
+            // 添加收藏
+            const insertSql = `INSERT INTO favorites (article_id, user_id) VALUES (?, ?)`;
+            connection.query(insertSql, [articleId, userId], (err2) => {
+                if (err2) return res.status(500).json({ error: '操作失败' });
+                res.json({ favorited: true });
+            });
+        }
+    });
+});
+
+// 获取收藏状态
+app.get('/api/favorite/status/:articleId', (req, res) => {
+    const { articleId } = req.params;
+    const { userId } = req.query;
+
+    const countSql = `SELECT COUNT(*) as favoriteCount FROM favorites WHERE article_id = ?`;
+    connection.query(countSql, [articleId], (err, countResult) => {
+        if (err) return res.status(500).json({ error: '获取失败' });
+
+        let isFavorited = false;
+        if (userId) {
+            const statusSql = `SELECT id FROM favorites WHERE article_id = ? AND user_id = ?`;
+            connection.query(statusSql, [articleId, userId], (err2, statusResult) => {
+                isFavorited = statusResult.length > 0;
+                res.json({ favoriteCount: countResult[0].favoriteCount, isFavorited });
+            });
+        } else {
+            res.json({ favoriteCount: countResult[0].favoriteCount, isFavorited: false });
+        }
+    });
+});
+
+// 获取用户收藏列表
+app.get('/api/favorites/:userId', (req, res) => {
+    const { userId } = req.params;
+    const sql = `SELECT m.*, f.created_at as favorite_time FROM favorites f
+                 JOIN my_articles m ON f.article_id = m.id
+                 WHERE f.user_id = ? ORDER BY f.created_at DESC`;
+
+    connection.query(sql, [userId], (err, results) => {
+        if (err) return res.status(500).json({ error: '获取失败' });
+        res.json(results);
+    });
+});
+
+// ============ 社交功能 API 结束 ============
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
+});
 });

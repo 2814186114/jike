@@ -42,6 +42,41 @@
 }
 
 // 用户信息区域
+.header-search {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .ant-input-search {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+
+        .ant-input {
+            background: transparent;
+            color: white;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        .ant-input-search-button {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: transparent;
+
+            .anticon {
+                color: white;
+            }
+        }
+
+        &:hover, &:focus, &.ant-input-search-focused {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
 .user-info {
     position: absolute;
     right: 20px;

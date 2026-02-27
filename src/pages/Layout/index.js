@@ -1,4 +1,4 @@
-import { Layout, Menu, Popconfirm } from 'antd'
+import { Layout, Menu, Popconfirm, Input } from 'antd'
 import {
     HomeOutlined,
     DiffOutlined,
@@ -7,7 +7,8 @@ import {
     EyeOutlined,
     UserOutlined,
     FileTextOutlined,
-    BookOutlined
+    BookOutlined,
+    SearchOutlined
 } from '@ant-design/icons'
 import './index.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -25,6 +26,12 @@ const items = [
         key: '/',
         path: '/',
         icon: <HomeOutlined />,
+    },
+    {
+        label: '搜索',
+        key: '/search',
+        path: 'search',
+        icon: <SearchOutlined />,
     },
     {
         label: '学习中心',
@@ -114,10 +121,23 @@ const GeekLayout = () => {
         dispatch(clearUserInfo())
         navigate('/login')
     }
+
+    const handleSearch = (value) => {
+        if (value.trim()) {
+            navigate(`/search?keyword=${encodeURIComponent(value)}`)
+        }
+    }
     return (
         <Layout data-theme={theme}>
             <Header className="header">
                 <div className="logo" />
+                <div className="header-search">
+                    <Input.Search
+                        placeholder="搜索文章..."
+                        onSearch={handleSearch}
+                        style={{ width: 300 }}
+                    />
+                </div>
                 <div className="user-info">
                     <span className="user-name">{useName}</span>
                     <button

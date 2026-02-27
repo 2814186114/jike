@@ -14,6 +14,7 @@ import MyArticle from '@/pages/Learn/my_article/index'
 import LearnVirtual from '@/pages/Learn/other_article/index'
 import ArticleDetail from '@/pages/Learn/Detail/index'
 import Personal from '@/pages/Personal/index'
+import SearchPage from '@/pages/Search/index'
 
 const router = createBrowserRouter([
     {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
             {
                 path: '/detail',
                 element: <ArticleDetail />
+            },
+            {
+                path: '/search',
+                element: <SearchPage />
             }
         ]
     },

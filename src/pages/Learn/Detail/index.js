@@ -14,6 +14,8 @@ import {
 import { useSelector } from 'react-redux';
 import offlineLearningManager from '../../../utils/offlineLearning';
 import ReactMarkdown from 'react-markdown';
+import Comment from '@/components/Comment';
+import LikeFavoriteButtons from '@/components/LikeFavoriteButtons';
 const { TextArea } = Input;
 const { Panel } = Collapse;
 
@@ -477,6 +479,14 @@ const ArticleDetail = () => {
             >
                 {article.content}
             </ReactMarkdown>
+            {/* 点赞和收藏按钮 */}
+            <div style={{ marginTop: 20, padding: '16px 0', borderTop: '1px solid #f0f0f0' }}>
+                <LikeFavoriteButtons articleId={article?.id} userInfo={currentUser} />
+            </div>
+
+            {/* 评论区域 */}
+            <Comment articleId={article?.id} userInfo={currentUser} />
+
             {/* AI 图标按钮 */}
             <OpenAIOutlined
                 size={40}
