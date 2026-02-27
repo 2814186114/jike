@@ -1,1 +1,1 @@
-feat: add social features - search, comments, like and favorite
+feat: add deployment configuration and environment variable support

@@ -1,11 +1,11 @@
 const mysql = require('mysql2')
 
-//数据库学习
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // 替换为你的数据库用户名
-    password: '123456', // 替换为你的数据库密码
-    database: 'jike', // 替换为你的数据库名
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '123456',
+    database: process.env.DB_NAME || 'jike',
+    port: process.env.DB_PORT || 3306,
 })
 
 connection.connect(err => {

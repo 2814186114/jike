@@ -108,7 +108,7 @@ const LearnVirtual = () => {
                 placeholder="搜索文章..."
                 value={searchTerm}
                 onChange={handleSearchChange} // 更新搜索状态
-                style={{ marginBottom: '20px', width: '300px' }}
+                style={{ marginBottom: '20px', width: '3500px' }}
             />
             <div
                 ref={containerRef}
