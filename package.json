@@ -59,7 +59,11 @@
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "dev": "nodemon your-app.js",
-    "hash:generate": "node scripts/generate-asset-hash.js"
+    "hash:generate": "node scripts/generate-asset-hash.js",
+    "server": "node server/useData/useData.js",
+    "server:dev": "nodemon server/useData/useData.js",
+    "dev:all": "concurrently \"npm run server:dev\" \"npm run start\"",
+    "start:all": "concurrently \"npm run server\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": [
@@ -80,6 +84,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "sass": "^1.79.4",
     "sharp": "^0.33.5"
   }
